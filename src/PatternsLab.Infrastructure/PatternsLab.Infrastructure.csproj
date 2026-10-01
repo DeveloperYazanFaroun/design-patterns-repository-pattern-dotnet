@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    INFRASTRUCTURE LAYER — the only project that knows EF Core exists.
+    Implements the interfaces declared in Domain.
+  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\PatternsLab.Application\PatternsLab.Application.csproj" />
+    <ProjectReference Include="..\PatternsLab.Domain\PatternsLab.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(EfCoreVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfCoreVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="$(MsExtVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MsExtVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="$(MsExtVersion)" />
+  </ItemGroup>
+
+</Project>

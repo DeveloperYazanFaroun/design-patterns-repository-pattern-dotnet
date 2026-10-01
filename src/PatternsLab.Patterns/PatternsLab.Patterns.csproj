@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    PATTERN CATALOGUE — one folder per GoF category, one file per pattern.
+    Deliberately standalone: it depends on nothing but the BCL and DI, so a
+    trainee can read any single file without loading the rest of the app.
+  -->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MsExtVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MsExtVersion)" />
+  </ItemGroup>
+
+</Project>

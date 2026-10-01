@@ -1,0 +1,90 @@
+@host = http://localhost:5080
+
+### Where to start — lists every route, plus the Swagger and OpenAPI links.
+GET {{host}}/
+
+### Health: confirms which provider the Unit of Work actually resolved.
+GET {{host}}/health
+
+### ---------------------------------------------------------------------------
+### Patients — run this FIRST: you need an id to POST a claim against.
+### ---------------------------------------------------------------------------
+# @name patients
+GET {{host}}/api/patients
+
+### Filter by name (PatientDirectorySpec, not a leaked IQueryable).
+GET {{host}}/api/patients?name=a
+
+### ---------------------------------------------------------------------------
+### Claims
+### ---------------------------------------------------------------------------
+
+### Search. Every filter is optional — this is ClaimSearchSpec doing the work.
+GET {{host}}/api/claims?page=1&pageSize=10
+
+### Narrow it: payer + status + number prefix.
+GET {{host}}/api/claims?payer=PBM-01&status=Submitted&number=CLM
+
+### Projection — six columns per row, never a whole aggregate.
+GET {{host}}/api/claims/summaries?payer=PBM-01
+
+### The named business rule: unsettled for thirty days or more.
+GET {{host}}/api/claims/outstanding/PBM-01
+
+### Soft-deleted claims — the global query filter, opted out of.
+GET {{host}}/api/claims/deleted
+
+### Submit a claim. PatientId is taken from the /api/patients call above, so run
+### that one first; Number must be unique or you get a 409.
+# @name created
+POST {{host}}/api/claims
+Content-Type: application/json
+
+{
+  "patientId": "{{patients.response.body.$[0].id}}",
+  "number": "CLM-9001",
+  "serviceDate": "2026-09-01",
+  "payerCode": "PBM-01",
+  "lines": [
+    { "procedureCode": "99213", "quantity": 1 },
+    { "procedureCode": "85025", "quantity": 2 }
+  ]
+}
+
+### Read it back with its lines and patient in one round trip.
+GET {{host}}/api/claims/{{created.response.body.id}}
+
+### Re-price through a Strategy picked at run time. See /api/pricing/plans for the list.
+POST {{host}}/api/claims/{{created.response.body.id}}/reprice?planType=Standard
+
+### Mark paid — raises ClaimPaid, dispatched after the commit, visible in /api/audit.
+POST {{host}}/api/claims/{{created.response.body.id}}/pay
+
+### Delete — the Unit of Work turns this into a soft delete.
+DELETE {{host}}/api/claims/{{created.response.body.id}}
+
+### ---------------------------------------------------------------------------
+### Reports and diagnostics
+### ---------------------------------------------------------------------------
+
+### NOTE: currently returns 500 — EF cannot aggregate over the owned Money type.
+GET {{host}}/api/reports/totals-by-payer?from=2025-01-01&to=2026-12-31
+
+### What the domain-event observers have recorded since startup.
+GET {{host}}/api/audit
+
+### The Strategy registry — each plan is a separate IPricingRule.
+GET {{host}}/api/pricing/plans
+
+### ---------------------------------------------------------------------------
+### Pattern catalogue
+### ---------------------------------------------------------------------------
+
+### Every demo in the catalogue.
+GET {{host}}/api/patterns
+
+### One of them.
+GET {{host}}/api/patterns/strategy
+
+### Run it and see its output.
+POST {{host}}/api/patterns/strategy/run

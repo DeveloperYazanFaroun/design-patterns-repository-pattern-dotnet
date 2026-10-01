@@ -1,0 +1,58 @@
+## .NET
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Bb]uild[Ll]og.*
+artifacts/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.DotSettings.user
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+
+## Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+TestResults/
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+## Local databases produced by `dotnet run` (SQLite provider)
+*.db
+*.db-shm
+*.db-wal
+patternslab.db*
+
+## Secrets — never commit these
+appsettings.*.local.json
+secrets.json
+*.pfx
+
+## OS noise
+.DS_Store
+Thumbs.db
+desktop.ini

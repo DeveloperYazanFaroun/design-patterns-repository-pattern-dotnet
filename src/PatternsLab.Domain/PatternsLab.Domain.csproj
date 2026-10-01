@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    DOMAIN LAYER — the centre of the onion.
+
+    Rule enforced by this file: there is NO reference to Microsoft.EntityFrameworkCore
+    here, and there never should be. If you find yourself wanting one, the abstraction
+    you are writing belongs in Infrastructure instead. See handbook §2.5 and §4.6.
+
+    The only dependency is the BCL, which already gives us System.Linq.Expressions —
+    that is what lets a Specification describe a query without knowing about EF Core.
+  -->
+
+</Project>

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <UserSecretsId>patternslab-6f1f6b6e-1f0a-4a9c-9a49-2f9a2f6b9c11</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PatternsLab.Application\PatternsLab.Application.csproj" />
+    <ProjectReference Include="..\PatternsLab.Domain\PatternsLab.Domain.csproj" />
+    <ProjectReference Include="..\PatternsLab.Infrastructure\PatternsLab.Infrastructure.csproj" />
+    <ProjectReference Include="..\PatternsLab.Patterns\PatternsLab.Patterns.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="$(MsExtVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- UI only. The OpenAPI document itself comes from Microsoft.AspNetCore.OpenApi
+         above; Swashbuckle is here purely to render it, and ships its assets embedded
+         so the page works with no internet connection. -->
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="$(SwaggerUiVersion)" />
+  </ItemGroup>
+
+</Project>
